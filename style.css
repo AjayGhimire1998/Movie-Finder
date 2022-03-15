@@ -1,0 +1,252 @@
+/* backgroundImage  */
+#container {
+    background-image: url('./images/movies.jpeg');
+    height: 100%;
+    background-repeat: no-repeat ;
+    background-position-x: center;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 1);
+}
+/* heading bar */
+#header {
+    position: relative;
+    font-family: fantasy;
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    font-weight: bolder;
+    padding: 10px; 
+    transition: 0.6s ease-in-out;
+    cursor: pointer;
+}
+#header span {
+    color: darkorange;
+}
+
+/* div:hover span{
+    text-transform: scale(1.2);
+} */
+
+
+/* search text input */
+#searchValue {
+    font-family: fantasy;
+    padding: 10px 10px;
+    width: 50%;
+    margin-left: 25%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    transition: .6s ease-in-out;
+    border: 2px solid black;   
+}
+
+/* search button */
+#searchButton{
+    color: black;
+    
+    font-weight: bolder;
+    padding: 5px 10px;
+    margin-left: 45%; 
+    position: relative;
+    display: block;
+    flex-direction: column;
+    background-color: rgb(248, 173, 80);
+    border: 1px solid black;
+    font-family: fantasy ;
+    transition: .6s ease-in-out; 
+}
+#searchButton:hover {
+    cursor: pointer;  
+    box-shadow: 0 0 5px black, 0 0 10px black, 0 0 15px black;;
+    transform: scale(1.2);
+}
+
+/* fetched images */
+img{
+    padding: 15px;
+    width: 250px;
+    margin: 15px;
+    height: 350px;
+    transition: 1s ease-in;
+}
+img:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* pop-up modal */
+.content-modal {
+    width: 70%;
+    height: 70%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 0.1; left: 0; bottom: 0; right: 0; 
+    border: 10px solid rgb(248, 173, 80);
+    border-radius: 10px;
+    border-right-color: aqua;
+    border-left-color: aquamarine;
+    border-top-color: rgb(248, 173, 80) ;
+    border-style: groove double ;
+    color: white;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: 0.8s ease-in-out;
+    z-index: 5;
+    display: none;
+    /* not previewing while page loads */
+}
+.content-modal-display{
+    display: block;
+    /* previewing when this class this is trigger */
+}
+.content-modal:hover{
+    box-shadow: 0 0 15px white, 0 0 20px white, 0 0 30px white;;
+    transform: scale(1.2);
+   
+}
+
+/* pop-up close button */
+button#close-modal{
+    background-color: rgb(248, 173, 80);
+    border: 1px solid black;
+    float: right;
+    transition: .8s ease-in-out;    
+}
+button#close-modal:hover{
+    transform: scale(1.2);
+    cursor: pointer;  
+    box-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px white;;
+}
+
+/* movie info */
+
+.movie-image img{
+    border: 6px solid white;
+    border-radius: 10px;
+    padding: 0;
+    max-width: 250px;
+}
+.movie-image img:hover{
+    box-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px white;;
+}
+.movie-info{
+    color: white;
+    text-align: right;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    top: -0.05px;
+    margin-top: 150px;
+    font-family: 'Inter', sans-serif;
+}
+h1.movie-title {
+    font-family:fantasy;
+    font-size: 50px;
+    color: rgb(248, 173, 80);
+    position: relative;
+    font-weight: bolder;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: inline;
+}
+.more-movie-info {
+    padding: 30px;
+    align-items: right;
+    list-style-type: none;   
+}
+.more-movie-info .year{
+    color:azure;
+    padding: 5px;
+}
+.more-movie-info .rate{
+    background-color: rgb(248, 173, 80);
+    display: inline;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: bolder;
+    font-family: sans-serif;  
+}
+.more-movie-info .release{
+    opacity: 0.7;
+    padding: 5px;
+}
+.movie-info .genre{
+    background-color: rgb(85, 82, 78);
+    display: inline;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 20px; 
+}
+.movie-info .writer{
+    padding: 5px;
+    margin-top: 15px;
+}
+.movie-info .plot {
+    padding: 5px;
+    margin: 5px;
+    font-size: 18px;
+}
+
+/* youtube-logo */
+#yt-logo {
+    height: 30px;
+    width: 45px;
+    display: flex;
+    margin-left: 45%;
+
+}
+#youtube-logo{
+    height: 40px;
+    width: 120px;
+    align-items: center;
+    display: flex;
+    margin-left:40%;
+    flex-direction: column;
+    background-color: rgb(248, 173, 80);
+    border: 1px solid black;
+    transition: .8s ease-in-out;  
+}
+#youtube-logo:hover{
+    transform: scale(1.2);
+    cursor: pointer;  
+    box-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px white;
+}
+/* iframe */
+.trailer{
+    display: flex;
+    flex-direction: row;
+    margin: 50px;
+    margin-top: 75%;
+    transition: 0.8s ease;
+    border: 3px solid white;
+    border-radius: 5px;
+    
+}
+.trailer:hover{
+    transform: scale(1.2);
+    box-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;;
+}
+/* closeiframe button */
+#close-iframe{
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+    color:red;
+    font-weight: bolder;
+    transition: 0.5s ease;
+}
+#close-iframe:hover{
+    transform: scale(1.2);
+    box-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px white;;
+}
+/* footer */
+#footer{
+    color: rgb(248, 173, 80);
+    margin-top: 90%;
+    text-align: center;
+}
