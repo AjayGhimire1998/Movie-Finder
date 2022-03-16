@@ -30,7 +30,7 @@ searchButton.addEventListener('click', event => {
     event.preventDefault();
     const textValue = searchValue.value;  
 
-    const searchURL = `http://www.omdbapi.com/?s=${textValue}&apikey=1f4503a2`
+    const searchURL = `https://www.omdbapi.com/?s=${textValue}&apikey=1f4503a2`
 
     fetch(searchURL)
     .then(response => response.json())
@@ -93,7 +93,7 @@ document.addEventListener('click', event => {
         contentModal.classList.add('content-modal-display');    //adding pop up
 
 
-        fetch (`http://www.omdbapi.com/?i=${movieId}&apikey=1f4503a2`)      //fetching the info 
+        fetch (`https://www.omdbapi.com/?i=${movieId}&apikey=1f4503a2`)      //fetching the info 
         .then(res => res.json())
         .then(data => {
             console.log(data);
@@ -137,14 +137,11 @@ document.addEventListener('click', event => {
         clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <button id="close-iframe" onclick="this.parentElement.remove();">X</button>`;
         contentModal.appendChild(contentModalThree);
-
     }
     if(target.id === 'close-modal') {
         const modal = target.parentElement;
         modal.classList.remove('content-modal-display');    //closing pop-up
     }
-    
-
 })
 
 

@@ -1,11 +1,12 @@
 /* backgroundImage  */
 #container {
-    background-image: url('./images/movies.jpeg');
-    height: 100%;
+    height: 80%;
+    margin: 100;
     background-repeat: no-repeat ;
     background-position-x: center;
     background-size: cover;
     background-color: rgba(0, 0, 0, 1);
+    background-image: url('./images/movies.jpeg');
 }
 /* heading bar */
 #header {
@@ -101,7 +102,7 @@ img:hover {
 }
 .content-modal-display{
     display: block;
-    /* previewing when this class this is trigger */
+    /* previewing when this class is trigger */
 }
 .content-modal:hover{
     box-shadow: 0 0 15px white, 0 0 20px white, 0 0 30px white;;
@@ -250,3 +251,9 @@ h1.movie-title {
     margin-top: 90%;
     text-align: center;
 }
+
+@media screen and (min-width: 800px) {
+    .container {
+      margin: 1em 2em;
+    }
+  }
