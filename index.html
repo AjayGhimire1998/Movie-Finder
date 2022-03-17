@@ -7,27 +7,32 @@
     <title>MovieApp</title>
     <link rel="stylesheet" href="./style.css">
 </head>
-<body id="container">
+<body>
+    <div class="container">
     
-    <header>
-        <div id="header"  onclick="refreshPage()">FIND <span id="yellowMovie">MOVIE</span></div>
-    </header>
+        <header>
+            <div id="header"  onclick="refreshPage()">FIND <span id="yellowMovie">MOVIE</span></div>
+        </header>
 
-    <div id ="seach-div">
-        <input type="text" id="searchValue" placeholder="Search a movie">
+        <div id ="seach-div">
+            <input type="text" id="searchValue" placeholder="   Search a movie">
+        </div>
+
+        <button type="search" id="searchButton">search</button>
+    </div>
+    <div class="container">
+
+        <div id="movie-list">
+                <br>
+                <!-- <section class="imageSection">
+                    <img src="" data-id="">
+                    <img src="" data-id="">
+                    <img src="" data-id="">
+                    <img src="" data-id="">
+                </section> -->
+        </div>
     </div>
 
-    <button type="search" id="searchButton">search</button>
-
-    <div id="movie-list">
-            <br>
-            <!-- <section class="imageSection">
-                <img src="" data-id="">
-                <img src="" data-id="">
-                <img src="" data-id="">
-                <img src="" data-id="">
-            </section> -->
-    </div>
     <div id="content-modal" class="content-modal">
             <!-- <button type="close" id="close-modal">X</button>
             <div class="movie-image">
@@ -35,12 +40,12 @@
             </div>
             <div class="movie-info">
                 <h1 class="movie-title">Game of Thrones</h1>
-                <ul class="more-movie-info">
-                    <li class="year">Year: 2011</li>
-                    <li class="rate">Ratings: PG-13</li>
-                    <li class="release">Released: 03 April 2011</li>
-                </ul>
-                <br>
+                    <ul class="more-movie-info">
+                        <li class="year">Year: 2011</li>
+                        <li class="rate">Ratings: PG-13</li>
+                        <li class="release">Released: 03 April 2011</li>
+                    </ul>
+                 <br>
                 <p class="genre"><b>Genre:</b> Action, Adventure, Fantasy</p>
                 <p class="writer"><b>Writer:</b> David Benioff, D.B. Weiss, George R.R. Martin</p>
                 <p class="actors"><b>Actors:</b> Sean Bean, Mark Addy, Nikolaj Coster-Waldau</p>
@@ -48,8 +53,9 @@
                 <p class="language"><b>Language:</b> English</p>
                 <p class="awards"><b>Awards:</b> N/A</p>
             </div> -->
-            
-    </div> 
+                
+        </div> 
+
        
     <p id ="footer"><sup>&copy;</sup> Ajay 2022</p>     
 </body>

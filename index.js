@@ -48,26 +48,40 @@ searchButton.addEventListener('click', event => {
 })
 
 function imageSection(movies) {   //fetching images based on imdbID
-    return movies.map((movie) => {
+    const section = document.createElement('section');
+    section.classList = 'imageSection';
+
+    movies.map((movie) => {
         if(movie.Poster !== "N/A"){
-            return `<img 
-                src="${movie.Poster}"          
-                data-id="${movie.imdbID}"
-            />`;             //removes extra spaces in the appended html
+            const img = document.createElement('img');
+            img.src = movie.Poster;
+            // img['data-id'] = movie.imdbID;
+            img.setAttribute('data-id', movie.imdbID); //** refactored from yt
+
+            section.appendChild(img);
+
+            // section.appendChild(img);
+            // return `<img                     // refactored as above to remove weird commmas
+            //     src="${movie.Poster}"          
+            //     data-id="${movie.imdbID}"
+            // />`;             //removes extra spaces in the appended html
+
         }
-    }
-)}
+
+    })
+    return section;
+}
 
 function movieList(movies) {        //creating div and section to hold the images
     const movieElement = document.createElement('div');
     movieElement.setAttribute('class', 'movies');
-    const movieSection = `
-        <section class="imageSection">
-        ${imageSection(movies)}  
-        </section>
-        <div id="content-modal">
-        <div>`;          //passing imageSection function to work better with template literal
-    movieElement.innerHTML = movieSection;
+    // const movieSection = `
+    //     <section class="imageSection">
+    //     ${imageSection(movies)}  
+    //     </section>`;          //passing imageSection function to work better with template literal
+    const section = imageSection(movies);
+    movieElement.appendChild(section)
+    // movieElement.innerHTML = movieSection;
     return movieElement;
 }
 
@@ -89,7 +103,8 @@ document.addEventListener('click', event => {
         const section = event.target.parentElement;
         const divMovies = section.parentElement;
         const divMoviesList = divMovies.parentElement;
-        const contentModal = divMoviesList.nextElementSibling;      //targeting the target with event delegation
+        const globalContainer = divMoviesList.parentElement;
+        const contentModal = globalContainer.nextElementSibling;      //targeting the target with event bubbling
         contentModal.classList.add('content-modal-display');    //adding pop up
 
 
@@ -131,7 +146,12 @@ document.addEventListener('click', event => {
     if(target.id === 'youtube-logo') {          //embedding a yt playlist when the watch trailor button is clicked
         const contentModalThree = document.createElement('div');
         contentModalThree.setAttribute('class', 'trailer')
-        contentModalThree.innerHTML = `<iframe width="560" height="315" 
+        contentModalThree.innerHTML = `
+        <form onsubmit="getTrailer(); return false;" id="search-trailer-form" >
+        <input type="text"  id="search-trailer"/>
+        <input type="submit" value="Search movie" />
+        </form>
+        <iframe width="560" height="315" id="iframe"
         src="https://www.youtube.com/embed/videoseries?list=PLpaBntXEYpU2wHh4vyIq2M8LAyeT538DD" 
         title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
         clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -143,6 +163,15 @@ document.addEventListener('click', event => {
         modal.classList.remove('content-modal-display');    //closing pop-up
     }
 })
+
+// function getTrailer(){
+//     const baseUrl = `https://www.youtube.com/results/?listType=search&list=${search_field}` ;
+//     const searchTrailer = document.getElementById('search-trailer').value ;
+//     const targetUrl = baseUrl + searchTrailer ;
+//     const iframe = document.getElementById('iframe') ;
+//     iframe.src = targetUrl ;
+//     return false ;
+// }
 
 
 

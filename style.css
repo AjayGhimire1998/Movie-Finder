@@ -1,23 +1,29 @@
 /* backgroundImage  */
-#container {
-    height: 80%;
-    margin: 100;
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
     background-repeat: no-repeat ;
-    background-position-x: center;
     background-size: cover;
-    background-color: rgba(0, 0, 0, 1);
     background-image: url('./images/movies.jpeg');
+    
+}
+/* header div */
+.container{
+    margin: 0 auto;
+    padding: 0 30px 0 30px;
+    max-width: 1800px;
 }
 /* heading bar */
 #header {
-    position: relative;
+    position: sticky;
     font-family: fantasy;
     color: white;
     font-size: 40px;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
     font-weight: bolder;
-    padding: 10px; 
+    padding: 50px 0; 
     transition: 0.6s ease-in-out;
     cursor: pointer;
 }
@@ -33,7 +39,7 @@
 /* search text input */
 #searchValue {
     font-family: fantasy;
-    padding: 10px 10px;
+    padding: 20px 0;
     width: 50%;
     margin-left: 25%;
     position: relative;
@@ -66,10 +72,16 @@
 }
 
 /* fetched images */
+.container .imageSection{
+    margin: 0 auto;
+    padding: 0 30px 0 30px;
+    max-width: 1800px;
+    text-align: center;
+    padding: 40px 0;
+}
 img{
-    padding: 15px;
-    width: 250px;
-    margin: 15px;
+    padding: 15px 30px;
+    margin: 15px 10px;
     height: 350px;
     transition: 1s ease-in;
 }
@@ -83,9 +95,9 @@ img:hover {
     width: 70%;
     height: 70%;
     overflow: auto;
-    margin: auto;
-    position: absolute;
-    top: 0.1; left: 0; bottom: 0; right: 0; 
+    margin: 0 auto; 
+    position: fixed;
+    top: 0.1; left: 0; bottom: 0; right: 0;  
     border: 10px solid rgb(248, 173, 80);
     border-radius: 10px;
     border-right-color: aqua;
@@ -95,8 +107,7 @@ img:hover {
     color: white;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.8);
-    transition: 0.8s ease-in-out;
-    z-index: 5;
+    transition: 1s ease-in-out;
     display: none;
     /* not previewing while page loads */
 }
@@ -106,7 +117,7 @@ img:hover {
 }
 .content-modal:hover{
     box-shadow: 0 0 15px white, 0 0 20px white, 0 0 30px white;;
-    transform: scale(1.2);
+    transform: scale(1.1);
    
 }
 
@@ -219,17 +230,17 @@ h1.movie-title {
 }
 /* iframe */
 .trailer{
+    text-align: center;
     display: flex;
     flex-direction: row;
-    margin: 50px;
-    margin-top: 75%;
+    margin: 400px 50px 20px 50px;
     transition: 0.8s ease;
     border: 3px solid white;
     border-radius: 5px;
     
 }
 .trailer:hover{
-    transform: scale(1.2);
+
     box-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;;
 }
 /* closeiframe button */
@@ -248,12 +259,19 @@ h1.movie-title {
 /* footer */
 #footer{
     color: rgb(248, 173, 80);
-    margin-top: 90%;
+    margin-top: 550px;
     text-align: center;
 }
+#search-trailer-form{
+    text-align: center;
+    margin: 50px 25px;
+}
+/* #search-trailer{
+     display: inline-block; 
+} */
 
-@media screen and (min-width: 800px) {
+/* @media screen and (min-width: 800px) {
     .container {
       margin: 1em 2em;
     }
-  }
+  } */
