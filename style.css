@@ -230,10 +230,11 @@ h1.movie-title {
 }
 /* iframe */
 .trailer{
-    text-align: center;
+
     display: flex;
     flex-direction: row;
-    margin: 400px 50px 20px 50px;
+    margin: 400px 20px 20px 20px;
+    padding: 20px;
     transition: 0.8s ease;
     border: 3px solid white;
     border-radius: 5px;
@@ -242,6 +243,11 @@ h1.movie-title {
 .trailer:hover{
 
     box-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;;
+}
+#iframe{
+    padding: 10px 10px;
+    width: 70%;
+    
 }
 /* closeiframe button */
 #close-iframe{
@@ -263,8 +269,8 @@ h1.movie-title {
     text-align: center;
 }
 #search-trailer-form{
-    text-align: center;
-    margin: 50px 25px;
+    float: left;
+    padding: 10px 10px;
 }
 /* #search-trailer{
      display: inline-block; 
