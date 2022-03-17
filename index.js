@@ -7,8 +7,8 @@
 //6. append image in to the doc ✅✅
 //7. give some more css ✅✅
 //8. implement pop-up modal ✅✅
-//9. fetch the movie info 
-//9. implement watch trailer button for each movie in the pop up
+//9. fetch the movie info ✅✅
+//9. implement watch trailer button for each movie in the pop up✅
 
 
 //refreshing the page on header click
@@ -48,40 +48,24 @@ searchButton.addEventListener('click', event => {
 })
 
 function imageSection(movies) {   //fetching images based on imdbID
-    const section = document.createElement('section');
-    section.classList = 'imageSection';
-
-    movies.map((movie) => {
+    return movies.map((movie) => {
         if(movie.Poster !== "N/A"){
-            const img = document.createElement('img');
-            img.src = movie.Poster;
-            // img['data-id'] = movie.imdbID;
-            img.setAttribute('data-id', movie.imdbID); //** refactored from yt
-
-            section.appendChild(img);
-
-            // section.appendChild(img);
-            // return `<img                     // refactored as above to remove weird commmas
-            //     src="${movie.Poster}"          
-            //     data-id="${movie.imdbID}"
-            // />`;             //removes extra spaces in the appended html
-
+            return `<img                    
+                src="${movie.Poster}"          
+                data-id="${movie.imdbID}"
+            />`;             //removes extra spaces in the appended html
         }
-
     })
-    return section;
 }
 
 function movieList(movies) {        //creating div and section to hold the images
     const movieElement = document.createElement('div');
     movieElement.setAttribute('class', 'movies');
-    // const movieSection = `
-    //     <section class="imageSection">
-    //     ${imageSection(movies)}  
-    //     </section>`;          //passing imageSection function to work better with template literal
-    const section = imageSection(movies);
-    movieElement.appendChild(section)
-    // movieElement.innerHTML = movieSection;
+    const movieSection = `
+        <section class="imageSection">
+        ${imageSection(movies)}  
+        </section>`;          //passing imageSection function to work better with template literal
+    movieElement.innerHTML = movieSection;
     return movieElement;
 }
 
@@ -90,7 +74,7 @@ function renderMovies(data) {
      const movies = data.Search;
      const newMovieList = movieList(movies);     // calling the movieList function to retrive the search data      
      movieContainer.appendChild(newMovieList);
-     console.log(data)
+     console.log(data);
 }
 
 document.addEventListener('click', event => {
@@ -144,34 +128,88 @@ document.addEventListener('click', event => {
         })
     }
     if(target.id === 'youtube-logo') {          //embedding a yt playlist when the watch trailor button is clicked
-        const contentModalThree = document.createElement('div');
-        contentModalThree.setAttribute('class', 'trailer')
-        contentModalThree.innerHTML = `
-        <form onsubmit="getTrailer(); return false;" id="search-trailer-form" >
-        <input type="text"  id="search-trailer"/>
-        <input type="submit" value="Search movie" />
-        </form>
-        <iframe width="560" height="315" id="iframe"
-        src="https://www.youtube.com/embed/videoseries?list=PLpaBntXEYpU2wHh4vyIq2M8LAyeT538DD" 
-        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
-        clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <button id="close-iframe" onclick="this.parentElement.remove();">X</button>`;
-        contentModal.appendChild(contentModalThree);
+        // const contentModalThree = document.createElement('div');
+        // contentModalThree.setAttribute('class', 'trailer')
+        // contentModalThree.innerHTML = `
+
+        // <button id="close-iframe" onclick="this.parentElement.remove();">X</button>
+        // <iframe width="560" height="315" id="iframe"
+        // src="https://www.youtube.com/embed/videoseries?list=PLpaBntXEYpU2wHh4vyIq2M8LAyeT538DD" 
+        // title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
+        // clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        // `;
+        // contentModal.appendChild(contentModalThree);
+        // const contentModalThree = document.createElement('div');
+        // contentModalThree.setAttribute('class', 'trailer')
+        // contentModalThree.innerHTML = `<form onsubmit="getTrailer(); return false;" id="search-trailer-form" >
+        // <input type="text"  id="search-trailer"/>
+        // <input type="submit" value="Search movie" id="submit-trailer" />
+        // </form>`
+        // contentModal.appendChild(contentModalThree);
+        const movieTitle = document.querySelector('.movie-title');
+        const iframeValue = movieTitle.innerHTML;
+        const iframeUrl = `https://youtube-v31.p.rapidapi.com/search?q=${iframeValue}+trailer&maxResults=1`
+        fetch((iframeUrl), {
+	        "method": "GET",
+	        "headers": {
+		    "x-rapidapi-host": "youtube-v31.p.rapidapi.com",
+		    "x-rapidapi-key": "285626be1emsh6252dd238a98631p1c38c5jsn328387bb55ff"
+	        }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            const contentModalThree = document.createElement('div');
+            contentModalThree.setAttribute('class', 'trailer')
+            contentModalThree.innerHTML = `
+    
+            <button id="close-iframe" onclick="this.parentElement.remove();">X</button>
+            <iframe width="560" height="315" id="iframe"
+            src="https://www.youtube.com/embed/${iframeValue}+trailer&maxResults=1" 
+            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
+            clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            `;
+            contentModal.appendChild(contentModalThree);
+
+        })
+        .catch(err => {
+	        console.error(err);
+        });
+
     }
     if(target.id === 'close-modal') {
         const modal = target.parentElement;
         modal.classList.remove('content-modal-display');    //closing pop-up
     }
 })
+/* <form onsubmit="getTrailer(); return false;" id="search-trailer-form" >
+<input type="text"  id="search-trailer"/>
+<input type="submit" value="Search movie" id="submit-trailer" />
+</form> */
 
 // function getTrailer(){
-//     const baseUrl = `https://www.youtube.com/results/?listType=search&list=${search_field}` ;
+//     const baseUrl = `https://www.youtube.com/embed/videoseries?list==${search_field}` ;
 //     const searchTrailer = document.getElementById('search-trailer').value ;
 //     const targetUrl = baseUrl + searchTrailer ;
 //     const iframe = document.getElementById('iframe') ;
 //     iframe.src = targetUrl ;
 //     return false ;
 // }
+
+
+// fetch("https://youtube-search6.p.rapidapi.com/trending?country=US&lang=en", {
+// 	"method": "GET",
+// 	"headers": {
+// 		"x-rapidapi-host": "youtube-search6.p.rapidapi.com",
+// 		"x-rapidapi-key": "285626be1emsh6252dd238a98631p1c38c5jsn328387bb55ff"
+// 	}
+// })
+// .then(response => {
+// 	console.log(response);
+// })
+// .catch(err => {
+// 	console.error(err);
+// });
 
 
 
