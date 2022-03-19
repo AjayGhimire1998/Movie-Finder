@@ -8,7 +8,7 @@
 //7. give some more css ✅✅
 //8. implement pop-up modal ✅✅
 //9. fetch the movie info ✅✅
-//9. implement watch trailer button for each movie in the pop up✅
+//9. implement watch trailer button for each movie in the pop up✅✅
 
 
 //refreshing the page on header click
@@ -82,7 +82,7 @@ document.addEventListener('click', event => {
     if(target.tagName.toLowerCase() === 'img'){     //converting tagNAME into lowercase as its uppercase by default
         // console.log('hy') 
         const movieId = event.target.dataset.id;
-        console.log(movieId);
+        // console.log(movieId);
 
         const section = event.target.parentElement;
         const divMovies = section.parentElement;
@@ -128,24 +128,6 @@ document.addEventListener('click', event => {
         })
     }
     if(target.id === 'youtube-logo') {          //embedding a yt playlist when the watch trailor button is clicked
-        // const contentModalThree = document.createElement('div');
-        // contentModalThree.setAttribute('class', 'trailer')
-        // contentModalThree.innerHTML = `
-
-        // <button id="close-iframe" onclick="this.parentElement.remove();">X</button>
-        // <iframe width="560" height="315" id="iframe"
-        // src="https://www.youtube.com/embed/videoseries?list=PLpaBntXEYpU2wHh4vyIq2M8LAyeT538DD" 
-        // title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
-        // clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        // `;
-        // contentModal.appendChild(contentModalThree);
-        // const contentModalThree = document.createElement('div');
-        // contentModalThree.setAttribute('class', 'trailer')
-        // contentModalThree.innerHTML = `<form onsubmit="getTrailer(); return false;" id="search-trailer-form" >
-        // <input type="text"  id="search-trailer"/>
-        // <input type="submit" value="Search movie" id="submit-trailer" />
-        // </form>`
-        // contentModal.appendChild(contentModalThree);
         const movieTitle = document.querySelector('.movie-title');
         const iframeValue = movieTitle.innerHTML;
         const iframeUrl = `https://youtube-v31.p.rapidapi.com/search?q=${iframeValue}+trailer&maxResults=1`
@@ -159,18 +141,18 @@ document.addEventListener('click', event => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
+           
+            const videoID = data.items[0].id.videoId;
             const contentModalThree = document.createElement('div');
-            contentModalThree.setAttribute('class', 'trailer')
+            contentModalThree.setAttribute('class', 'trailer')  
             contentModalThree.innerHTML = `
-    
             <button id="close-iframe" onclick="this.parentElement.remove();">X</button>
             <iframe width="560" height="315" id="iframe"
-            src="https://www.youtube.com/embed/${iframeValue}+trailer&maxResults=1" 
+            src="https://www.youtube.com/embed/${videoID}" 
             title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
             clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             `;
             contentModal.appendChild(contentModalThree);
-
         })
         .catch(err => {
 	        console.error(err);
@@ -182,34 +164,8 @@ document.addEventListener('click', event => {
         modal.classList.remove('content-modal-display');    //closing pop-up
     }
 })
-/* <form onsubmit="getTrailer(); return false;" id="search-trailer-form" >
-<input type="text"  id="search-trailer"/>
-<input type="submit" value="Search movie" id="submit-trailer" />
-</form> */
-
-// function getTrailer(){
-//     const baseUrl = `https://www.youtube.com/embed/videoseries?list==${search_field}` ;
-//     const searchTrailer = document.getElementById('search-trailer').value ;
-//     const targetUrl = baseUrl + searchTrailer ;
-//     const iframe = document.getElementById('iframe') ;
-//     iframe.src = targetUrl ;
-//     return false ;
-// }
 
 
-// fetch("https://youtube-search6.p.rapidapi.com/trending?country=US&lang=en", {
-// 	"method": "GET",
-// 	"headers": {
-// 		"x-rapidapi-host": "youtube-search6.p.rapidapi.com",
-// 		"x-rapidapi-key": "285626be1emsh6252dd238a98631p1c38c5jsn328387bb55ff"
-// 	}
-// })
-// .then(response => {
-// 	console.log(response);
-// })
-// .catch(err => {
-// 	console.error(err);
-// });
 
 
 
