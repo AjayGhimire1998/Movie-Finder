@@ -34,14 +34,12 @@ searchButton.addEventListener('click', event => {
 
     fetch(searchURL)
     .then(response => response.json())
-    .then(renderMovies)
-        
-        // movieContainer.innerHTML = ""; 
-        // const movies = data.Search;                  //has been moved to a new function
-        // const newMovieList = movieList(movies);           
-        // movieContainer.appendChild(newMovieList);
-        // console.log(data)
-
+    .then(data => {
+        movieContainer.innerHTML = "";      //adding an empty html gives new search within, without reloading the page 
+        const movies = data.Search;                           
+        movieContainer.appendChild(movieList(movies));  //calling movieList function that is returning movieElement(div)
+        console.log(data)
+    })
     .catch(error => console.log('Error:', error));
 
     searchValue.value = '';   //empties the search after each input
@@ -63,18 +61,10 @@ function movieList(movies) {        //creating div and section to hold the image
     movieElement.setAttribute('class', 'movies');
     const movieSection = `
         <section class="imageSection">
-        ${imageSection(movies)}  
+        ${imageSection(movies).join(' ')}  
         </section>`;          //passing imageSection function to work better with template literal
     movieElement.innerHTML = movieSection;
     return movieElement;
-}
-
-function renderMovies(data) {
-      movieContainer.innerHTML = ''; //adding an empty html gives new search within, without reloading the page 
-     const movies = data.Search;
-     const newMovieList = movieList(movies);     // calling the movieList function to retrive the search data      
-     movieContainer.appendChild(newMovieList);
-     console.log(data);
 }
 
 document.addEventListener('click', event => {
@@ -83,81 +73,11 @@ document.addEventListener('click', event => {
         // console.log('hy') 
         const movieId = event.target.dataset.id;
         // console.log(movieId);
-
-        const section = event.target.parentElement;
-        const divMovies = section.parentElement;
-        const divMoviesList = divMovies.parentElement;
-        const globalContainer = divMoviesList.parentElement;
-        const contentModal = globalContainer.nextElementSibling;      //targeting the target with event bubbling
-        contentModal.classList.add('content-modal-display');    //adding pop up
-
-
-        fetch (`https://www.omdbapi.com/?i=${movieId}&apikey=1f4503a2`)      //fetching the info 
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-
-            // console.log(data.Title);
-            // console.log(data.Poster);
-
-            const content =`
-                <button type="close" id="close-modal">X</button>
-                <div class="movie-image">
-                    <img src="${data.Poster}" alt="movies image">
-                </div>
-                <div class="movie-info">
-                    <h1 class="movie-title">${data.Title}</h1>
-                    <ul class="more-movie-info">
-                        <li class="year">Year: ${data.Year}</li>
-                        <li class="rate">Ratings: ${data.Rated}</li>
-                        <li class="release">Released: ${data.Releases}</li>
-                    </ul>
-                    <br>
-                    <p class="genre"><b>Genre:</b> ${data.Genre}</p>
-                    <p class="writer"><b>Writer:</b> ${data.Writer}</p>
-                    <p class="actors"><b>Actors:</b> ${data.Actors}</p>
-                    <p class="plot"><b>Plot:</b> ${data.Plot}</p>
-                    <p class="awards"><b>Awards:</b> ${data.Awards}</p>
-                    <img src="./images/youtube.webp" id="yt-logo">
-                    <button id="youtube-logo" style="text-align: center;"/><b>Watch Trailer</b></button>
-                </div>`
-
-            const contentModalTwo = document.querySelector('.content-modal-display'); 
-            contentModalTwo.innerHTML = content;        //adding the info in the content-Modal
-       
-        })
+        contentModal.classList.add('content-modal-display');   
+        renderPopUp(movieId); //adding pop up
     }
-    if(target.id === 'youtube-logo') {          //embedding a yt playlist when the watch trailor button is clicked
-        const movieTitle = document.querySelector('.movie-title');
-        const iframeValue = movieTitle.innerHTML;
-        const iframeUrl = `https://youtube-v31.p.rapidapi.com/search?q=${iframeValue}+trailer&maxResults=1`
-        fetch((iframeUrl), {
-	        "method": "GET",
-	        "headers": {
-		    "x-rapidapi-host": "youtube-v31.p.rapidapi.com",
-		    "x-rapidapi-key": "285626be1emsh6252dd238a98631p1c38c5jsn328387bb55ff"
-	        }
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-           
-            const videoID = data.items[0].id.videoId;
-            const contentModalThree = document.createElement('div');
-            contentModalThree.setAttribute('class', 'trailer')  
-            contentModalThree.innerHTML = `
-            <button id="close-iframe" onclick="this.parentElement.remove();">X</button>
-            <iframe width="560" height="315" id="iframe"
-            src="https://www.youtube.com/embed/${videoID}" 
-            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
-            clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            `;
-            contentModal.appendChild(contentModalThree);
-        })
-        .catch(err => {
-	        console.error(err);
-        });
-
+    if(target.id === 'youtube-logo') {   
+        embedTrailer();       //embedding a yt playlist when the watch trailor button is clicked
     }
     if(target.id === 'close-modal') {
         const modal = target.parentElement;
@@ -165,7 +85,72 @@ document.addEventListener('click', event => {
     }
 })
 
+function renderPopUp (movieId) {
+    fetch (`https://www.omdbapi.com/?i=${movieId}&apikey=1f4503a2`)      //fetching the info 
+    .then(res => res.json())
+    .then(data => {
+        renderMovieInfo(data);
+    });
+}
 
-
+function renderMovieInfo(data) {
+    const contentModalDisplay = document.querySelector('.content-modal-display');
+    contentModalDisplay.innerHTML = contentHtml(data);
+}
+function contentHtml(data) {
+    return `
+    <button type="close" id="close-modal">X</button>
+    <div class="movie-image">
+        <img src="${data.Poster}" alt="movies image">
+    </div>
+    <div class="movie-info">
+        <h1 class="movie-title">${data.Title}</h1>
+        <ul class="more-movie-info">
+            <li class="year">Year: ${data.Year}</li>
+            <li class="rate">Ratings: ${data.Rated}</li>
+            <li class="release">Released: ${data.Releases}</li>
+        </ul>
+        <br>
+        <p class="genre"><b>Genre:</b> ${data.Genre}</p>
+        <p class="writer"><b>Writer:</b> ${data.Writer}</p>
+        <p class="actors"><b>Actors:</b> ${data.Actors}</p>
+        <p class="plot"><b>Plot:</b> ${data.Plot}</p>
+        <p class="awards"><b>Awards:</b> ${data.Awards}</p>
+        <img src="./images/youtube.webp" id="yt-logo">
+        <button id="youtube-logo" style="text-align: center;"/><b>Watch Trailer</b></button>
+    </div>`
+}
+ function renderEmbed(data){
+    const videoID = data.items[0].id.videoId;
+    const contentModalThree = document.createElement('div');
+    contentModalThree.setAttribute('class', 'trailer')  
+    contentModalThree.innerHTML = `
+    <button id="close-iframe" onclick="this.parentElement.remove();">X</button>
+    <iframe width="560" height="315" id="iframe"
+    src="https://www.youtube.com/embed/${videoID}" 
+    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
+    clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    `;
+    contentModal.appendChild(contentModalThree);
+ }
+ function embedTrailer() {
+    const movieTitle = document.querySelector('.movie-title');
+    const iframeValue = movieTitle.innerHTML;
+    const iframeUrl = `https://youtube-v31.p.rapidapi.com/search?q=${iframeValue}+trailer&maxResults=1`
+    fetch((iframeUrl), {
+        "method": "GET",
+        "headers": {
+        "x-rapidapi-host": "youtube-v31.p.rapidapi.com",
+        "x-rapidapi-key": "285626be1emsh6252dd238a98631p1c38c5jsn328387bb55ff"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        renderEmbed(data)
+    })
+    .catch(err => {
+        console.error(err);
+    });
+ }
 
 

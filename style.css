@@ -24,7 +24,7 @@ body {
     background-color: rgba(0, 0, 0, 0.6);
     font-weight: bolder;
     padding: 50px 0; 
-    transition: 0.6s ease-in-out;
+    transition: 1s ease-in-out;
     cursor: pointer;
 }
 #header span {
@@ -46,7 +46,7 @@ body {
     display: flex;
     flex-direction: column;
     background-color: white;
-    transition: .6s ease-in-out;
+    transition: 1s ease-in-out;
     border: 2px solid black;   
 }
 
@@ -63,7 +63,7 @@ body {
     background-color: rgb(248, 173, 80);
     border: 1px solid black;
     font-family: fantasy ;
-    transition: .6s ease-in-out; 
+    transition: 1s ease-in-out; 
 }
 #searchButton:hover {
     cursor: pointer;  
@@ -273,16 +273,15 @@ padding: 50px 50px 50px 0px;
     margin-top: 700px;
     text-align: center;
 }
-#search-trailer-form{
+/* #search-trailer-form{ */
     /* float: left; */
-    align-items: center;
-
+    /* align-items: center;
 
     display: inline-block; 
     margin: 0 auto;
     padding: 0 10px 0 10px;
 
-}
+} */
 
 
 /* @media screen and (min-width: 800px) {
