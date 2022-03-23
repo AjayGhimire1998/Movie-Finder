@@ -38,7 +38,7 @@ searchButton.addEventListener('click', event => {
         movieContainer.innerHTML = "";      //adding an empty html gives new search within, without reloading the page 
         const movies = data.Search;                           
         movieContainer.appendChild(movieList(movies));  //calling movieList function that is returning movieElement(div)
-        console.log(data)
+        // console.log(data)
     })
     .catch(error => console.log('Error:', error));
 
@@ -51,7 +51,11 @@ function imageSection(movies) {   //fetching images based on imdbID
             return `<img                    
                 src="${movie.Poster}"          
                 data-id="${movie.imdbID}"
-            />`;             //removes extra spaces in the appended html
+                data-title="${movie.Title}"
+                data-poster="${movie.Poster}"
+                id="rendered-movie-image"
+            />
+            `;             //removes extra spaces in the appended html
         }
     })
 }
@@ -62,12 +66,14 @@ function movieList(movies) {        //creating div and section to hold the image
     const movieSection = `
         <section class="imageSection">
         ${imageSection(movies).join(' ')}  
-        </section>`;          //passing imageSection function to work better with template literal
+        </section>
+        `;          //passing imageSection function to work better with template literal
     movieElement.innerHTML = movieSection;
     return movieElement;
 }
 
 document.addEventListener('click', event => {
+    event.preventDefault();
     const target = event.target
     if(target.tagName.toLowerCase() === 'img'){     //converting tagNAME into lowercase as its uppercase by default
         // console.log('hy') 
@@ -79,6 +85,20 @@ document.addEventListener('click', event => {
     if(target.id === 'youtube-logo') {   
         embedTrailer();       //embedding a yt playlist when the watch trailor button is clicked
     }
+
+    if(target.id === 'like-button'){
+        likeButton();
+    }
+    if(target.id === 'show-list'){
+        const addedList = document.querySelector('.list');
+        addedList.classList.add('list-display');
+    }
+    if(target.id === 'remove-liked'){
+        document.querySelector('.title-and-image').remove();
+    }
+    if(target.id === 'liked-list'){
+        document.querySelector('.list').remove();
+    }
     if(target.id === 'close-modal') {
         const modal = target.parentElement;
         modal.classList.remove('content-modal-display');    //closing pop-up
@@ -89,6 +109,7 @@ function renderPopUp (movieId) {
     fetch (`https://www.omdbapi.com/?i=${movieId}&apikey=1f4503a2`)      //fetching the info 
     .then(res => res.json())
     .then(data => {
+        // console.log(data);
         renderMovieInfo(data);
     });
 }
@@ -102,7 +123,7 @@ function contentHtml(data) {
     <button type="close" id="close-modal">X</button>
     <div class="movie-image">
         <img src="${data.Poster}" alt="movies image">
-    </div>
+    </div>  
     <div class="movie-info">
         <h1 class="movie-title">${data.Title}</h1>
         <ul class="more-movie-info">
@@ -111,15 +132,20 @@ function contentHtml(data) {
             <li class="release">Released: ${data.Releases}</li>
         </ul>
         <br>
+        <br>
         <p class="genre"><b>Genre:</b> ${data.Genre}</p>
         <p class="writer"><b>Writer:</b> ${data.Writer}</p>
         <p class="actors"><b>Actors:</b> ${data.Actors}</p>
         <p class="plot"><b>Plot:</b> ${data.Plot}</p>
         <p class="awards"><b>Awards:</b> ${data.Awards}</p>
-        <img src="./images/youtube.webp" id="yt-logo">
-        <button id="youtube-logo" style="text-align: center;"/><b>Watch Trailer</b></button>
+        <div id="content-container">
+            <button type="submit" id="like-button">🤍</button> 
+            <small id="like-text"><i> Click to Like the Movie </i></small>
+            <button id="youtube-logo" style="text-align: center;"/><b>Watch Trailer</b></button>
+        </div>
     </div>`
-}
+ }
+
  function renderEmbed(data){
     const videoID = data.items[0].id.videoId;
     const contentModalThree = document.createElement('div');
@@ -133,6 +159,7 @@ function contentHtml(data) {
     `;
     contentModal.appendChild(contentModalThree);
  }
+
  function embedTrailer() {
     const movieTitle = document.querySelector('.movie-title');
     const iframeValue = movieTitle.innerHTML;
@@ -152,5 +179,45 @@ function contentHtml(data) {
         console.error(err);
     });
  }
+
+ function likeButton(){
+    const likeButton = document.querySelector('#like-button');
+    const likeText = document.querySelector('#like-text');
+    if(likeButton.innerHTML === '🤍'){
+        likeButton.innerHTML = `❤️`;
+        likeText.innerHTML = `Glad you liked the movie!!`
+
+        const sectionForImage = document.querySelector('.imageSection');
+        const imageCollection = sectionForImage.children;
+        const arrayOfImageCollections = Array.from(imageCollection);
+        // console.log(arrayOfImageCollections);
+        
+        arrayOfImageCollections.forEach(arrayOfImageCollection => {
+
+            const titleId = arrayOfImageCollection.dataset.title;
+            const imageId = arrayOfImageCollection.dataset.poster;
+            const list = document.querySelector('.list');
+            const createdList = document.createElement('div');
+            createdList.setAttribute('class', 'title-and-image')
+            createdList.innerHTML = 
+                `
+                <li id="title-list"> ${titleId}  <button id="remove-liked">X</button></li> 
+                <img src="${imageId}" id="liked-movie-image">
+                `;
+            
+            arrayOfImageCollections.filter(arrayOfImageCollection => {
+                const titleinfo = document.querySelector('.movie-title')
+                if(titleId === titleinfo.innerHTML ){
+                    list.innerHTML= ' ';
+                    list.appendChild(createdList);
+                }
+            }) 
+        })
+    } else{
+        likeButton.innerHTML = `🤍`;
+        likeText.innerHTML = `Click to Like the movie`;
+    }
+ }
+
 
 
