@@ -208,7 +208,6 @@ function contentHtml(data) {
             arrayOfImageCollections.filter(arrayOfImageCollection => {
                 const titleinfo = document.querySelector('.movie-title')
                 if(titleId === titleinfo.innerHTML ){
-                    list.innerHTML= ' ';
                     list.appendChild(createdList);
                 }
             }) 
